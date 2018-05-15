@@ -29,7 +29,8 @@ print("Connected.")
 
 
 fichier = open("coordinates.txt","r") #open text file 
- 
+old_x, old_y = None, None
+
 for ligne in fichier:
 
 	
@@ -38,6 +39,9 @@ for ligne in fichier:
 	y = int(b[1])
 	y -= 500
 	print("x =", x, "y =", y)
+	if old_x == x and old_y == y :
+		print("same coordinates")
+		continue
 	values = (56, 9, x, y, 0) # Find route to specified coordinate
 	print(values)
 
@@ -47,6 +51,7 @@ for ligne in fichier:
 	print("Sending {!r}".format(binascii.hexlify(packed_data)))
 	sock.sendall(packed_data)
 	time.sleep(20)
+	old_x, old_y = x, y
 
 fichier.close()
 print("Closing socket")
